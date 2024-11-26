@@ -1,1 +1,32 @@
-<p>signup works!</p>
+<div class="signup-container">
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <h2>Sign Up</h2>
+      
+      <label for="username">Username</label>
+      <input id="username" formControlName="username" type="text" placeholder="Enter username" />
+      <div *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched">
+        Username must be at least 3 characters.
+      </div>
+      
+      <label for="email">Email</label>
+      <input id="email" formControlName="email" type="email" placeholder="Enter email" />
+      <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+        Please enter a valid email.
+      </div>
+      
+      <label for="password">Password</label>
+      <input id="password" formControlName="password" type="password" placeholder="Enter password" />
+      <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+        Password must be at least 6 characters.
+      </div>
+      
+      <label for="role">Role</label>
+      <select id="role" formControlName="role">
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+      
+      <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
+    </form>
+    <p>{{ message }}</p>
+  </div>
+  
