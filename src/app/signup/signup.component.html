@@ -1,32 +1,52 @@
 <div class="signup-container">
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-      <h2>Sign Up</h2>
-      
-      <label for="username">Username</label>
-      <input id="username" formControlName="username" type="text" placeholder="Enter username" />
-      <div *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched">
-        Username must be at least 3 characters.
-      </div>
-      
-      <label for="email">Email</label>
-      <input id="email" formControlName="email" type="email" placeholder="Enter email" />
-      <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
-        Please enter a valid email.
-      </div>
-      
-      <label for="password">Password</label>
-      <input id="password" formControlName="password" type="password" placeholder="Enter password" />
-      <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
-        Password must be at least 6 characters.
-      </div>
-      
-      <label for="role">Role</label>
-      <select id="role" formControlName="role">
-        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
-      </select>
-      
-      <button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
+  <mat-card class="signup-card">
+    <mat-card-title>Sign Up</mat-card-title>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" autocomplete="off"> 
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" required />
+        <mat-error *ngIf="signupForm.controls['username'].hasError('required')">
+          Username is required
+        </mat-error>
+        <mat-error *ngIf="signupForm.controls['username'].hasError('minlength')">
+          Username must be at least 3 characters long
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required />
+        <mat-error *ngIf="signupForm.controls['email'].hasError('required')">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="signupForm.controls['email'].hasError('email')">
+          Enter a valid email address
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" required />
+        <mat-error *ngIf="signupForm.controls['password'].hasError('required')">
+          Password is required
+        </mat-error>
+        <mat-error *ngIf="signupForm.controls['password'].hasError('minlength')">
+          Password must be at least 6 characters long
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role" required>
+          <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid">
+        Sign Up
+      </button>
     </form>
-    <p>{{ message }}</p>
-  </div>
-  
+
+    <div *ngIf="message" class="message">{{ message }}</div>
+  </mat-card>
+</div>
